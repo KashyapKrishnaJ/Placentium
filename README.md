@@ -65,7 +65,7 @@
 
 We are looking for **developers, blockchain researchers, and UI/UX designers** to contribute to **Placentium**! If you're interested in building the future of decentralized storage, reach out through **GitHub Issues** or join our community.
 
-<img src="join_whatsapp.jpeg" alt="join_whatsapp" width="200"/>
+<img src="join_whatsapp.jpeg" alt="join_whatsapp" width="300"/>
 
 💬 **WhatsApp Group** : [Join here](https://chat.whatsapp.com/Cd00XYSLIXKAGDtZuwlOQH)
 
