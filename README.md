@@ -61,7 +61,7 @@ We are looking for **developers, blockchain researchers, and UI/UX designers** t
 
 💬 **WhatsApp Group** : [Join here](https://chat.whatsapp.com/Cd00XYSLIXKAGDtZuwlOQH)
 
-📞 **Phone Number**: +91 91506 91374
+📧 **E-mail** : kashyapkrishnaj@gmail.com
 
 📂 **GitHub Repo**: [Link](https://github.com/KashyapKrishnaJ/Placentium)
 
