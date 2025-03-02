@@ -9,15 +9,15 @@ Block::Block(int index, string previousHash, string data){
     hash = calculateHash();
 }
 
-string Block::getHash(){
+string Block::getHash() {
     return hash;
 }
 
-string Block::getPreviousHash(){
+string Block::getPreviousHash() {
     return previousHash;
 }
 
-string Block::calculateHash(){
+string Block::calculateHash() {
     stringstream ss;
     ss << index << previousHash << data << timestamp << nonce;
     string input = ss.str();        
@@ -29,10 +29,26 @@ string Block::calculateHash(){
     return hexStream.str();
 }
 
-void Block::mineBlock(int difficulty){
+void Block::mineBlock(int difficulty) {
     string prefix(difficulty, '0');
-    while (hash.substr(0, difficulty) != prefix){
+    while (hash.substr(0, difficulty) != prefix) {
         nonce++;
         hash = calculateHash();
     }
+}
+
+int Block::getIndex() {
+    return index;
+}
+
+string Block::getData() {
+    return data;
+}
+
+time_t Block::getTimestamp() {
+    return timestamp;
+}
+
+int Block::getNonce() {
+    return nonce;
 }

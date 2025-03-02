@@ -1,22 +1,25 @@
 CXX = g++
+CXXFLAGS = -std=c++11 -Wall -Iinclude
 
-CXXFLAGS = -std=c++11 -Wall
+SRC_DIR = src
+INC_DIR = include
+BUILD_DIR = build
+LDFLAGS = -lcrypto -lssl
 
-SRC = main.cpp block.cpp blockchain.cpp
-
-HEADERS = block.h blockchain.h
-
-OBJ = $(SRC:.cpp=.o)
+SRC = $(SRC_DIR)/main.cpp $(SRC_DIR)/block.cpp $(SRC_DIR)/blockchain.cpp
+HEADERS = $(INC_DIR)/block.h $(INC_DIR)/blockchain.h
+OBJ = $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SRC))
 
 TARGET = placentium
 
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJ)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJ) $(LDFLAGS)
 
-%.o: %.cpp $(HEADERS)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp $(HEADERS)
+	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ) $(TARGET)
+	rm -rf $(BUILD_DIR) $(TARGET)

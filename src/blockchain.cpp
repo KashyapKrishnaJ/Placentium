@@ -1,48 +1,83 @@
 # include "blockchain.h"
 
-using namespace std;
+Blockchain::Blockchain(Block genesisBlock, int difficulty) {
+    this->difficulty = difficulty;
+    chain.push_back(genesisBlock);
+}
 
-const string genesisData = "Placentium - A blockchain solution to a decentralised filesystem for the future of cloud storage and hosting.";
+void Blockchain::addBlock(Block nthBlock) {
+    nthBlock.mineBlock(difficulty);
+    chain.push_back(nthBlock);
+}
 
-const int difficulty = 3;
+Block Blockchain::getLatestBlock() {
+    return chain.back();
+}
 
-class Blockchain {
-    private:
-        vector<Block> chain;
-        int difficulty;
-        
-    public:
-        Blockchain(Block genesisBlock) {
-            chain.push_back(genesisBlock);
-        }
+void Blockchain::setDifficulty(int difficulty) {
+    this->difficulty = difficulty;
+}
 
-        void addBlock(Block nthBlock) {
-            chain.push_back(nthBlock);
-        }
+int Blockchain::getDifficulty() {
+    return difficulty;
+}
 
-        Block getLatestBlock() {
-            return chain[chain.size() - 1];
-        }
+int Blockchain::getLength() {
+    return chain.size();
+}
 
-        bool isChainValid() {
-            for (int i = 1; i < chain.size(); i++) {
-                Block currentBlock = chain[i];
-                Block previousBlock = chain[i - 1];
-                if (currentBlock.getHash() != currentBlock.calculateHash())
-                    return false;
-                if (currentBlock.getPreviousHash() != previousBlock.getHash())
-                    return false;
-            }
-            return true;
-        }
+void Blockchain::addData(string data) {
+    Block mthBlock = getLatestBlock();
+    addBlock(Block(getLength(), mthBlock.getHash(), data));
+}
 
-        bool isValidPoW(){
-            for (int i = 0; i < chain.size(); i++) {
-                Block currentBlock = chain[i];
-                string prefix(difficulty, '0');
-                if (currentBlock.getHash().substr(0, difficulty) != prefix)
-                    return false;
-            }
-            return true;
-        }
-};
+bool Blockchain::isChainValid() {
+    string prefix(difficulty, '0');
+    for (Block i : chain) {
+        if (i.getIndex() == 0)
+            continue;
+        Block currentBlock = i;
+        Block previousBlock = chain[i.getIndex() - 1];
+        if (currentBlock.getHash() != currentBlock.calculateHash())
+            return false;
+        if (currentBlock.getPreviousHash() != previousBlock.getHash())
+            return false;
+        if (currentBlock.getHash().substr(0, difficulty) != prefix)
+            return false;
+    }
+    return true;
+}
+
+void Blockchain::mineChain() {
+    cout << "Mining Chain..." << endl;
+    for (Block i : chain) {
+        i.mineBlock(difficulty);
+    }
+}
+
+void Blockchain::validateChain() {
+    if (!isChainValid()) {
+        mineChain();
+    }
+}
+
+void Blockchain::displayChain() {
+    for (Block block : chain) {
+        cout << "Block " << block.getHash() << endl;
+        cout << "Index: " << block.getIndex() << endl;
+        cout << "Previous Hash: " << block.getPreviousHash() << endl;
+        cout << "Data: " << block.getData() << endl;
+        cout << "Timestamp: " << block.getTimestamp() << endl;
+        cout << "Nonce: " << block.getNonce() << endl;
+        cout << endl;
+    }
+}
+
+void Blockchain::displayValidity() {
+    if (isChainValid()) {
+        cout << "Chain is Valid" << endl;
+    }
+    else {
+        cout << "Chain is not Valid" << endl;
+    }
+}
